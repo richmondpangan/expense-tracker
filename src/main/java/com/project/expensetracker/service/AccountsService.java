@@ -66,7 +66,7 @@ public class AccountsService {
             
             // Check if the account belongs to the specified user
             if (!existingAccount.getUser().getUserId().equals(userId)) {
-                throw new UnauthorizedAccessException("You do not have permission to update this account");
+                throw new UnauthorizedAccessException("You do not have permission to delete this account");
             }
             accountsRepository.deleteById(accountId);
         }
