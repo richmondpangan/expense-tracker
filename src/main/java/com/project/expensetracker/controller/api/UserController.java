@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.project.expensetracker.controller;
+package com.project.expensetracker.controller.api;
 
 import com.project.expensetracker.model.User;
 import com.project.expensetracker.service.UserService;
