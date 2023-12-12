@@ -171,22 +171,26 @@
                                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="accountTypeInput" class="form-label">Account Type</label>
-                                        <input type="text" class="form-control" id="accountTypeInput">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="accountNameInput" class="form-label">Account Name</label>
-                                        <input type="text" class="form-control" id="accountNameInput">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="accountBalanceInput" class="form-label">Balance</label>
-                                        <input type="text" class="form-control" id="accountBalanceInput">
-                                    </div>
+                                    <!-- Form for adding a new account -->
+                                    <form id="addAccountForm">
+                                        <!-- Account form fields -->
+                                        <div class="mb-3">
+                                            <label for="accountTypeInput" class="form-label">Account Type</label>
+                                            <input type="text" class="form-control" id="accountTypeInput" name="accountType" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="accountNameInput" class="form-label">Account Name</label>
+                                            <input type="text" class="form-control" id="accountNameInput" name="accountName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="accountBalanceInput" class="form-label">Balance</label>
+                                            <input type="text" class="form-control" id="accountBalanceInput" name="balance" required>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                                    <button class="btn btn-primary" type="button">Save</button>
+                                    <button class="btn btn-primary" type="button" onclick="saveAccount()">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -198,6 +202,7 @@
     </div>
 
     <!-- JavaScript -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js}"></script>
     <script th:src="@{/js/actions.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
