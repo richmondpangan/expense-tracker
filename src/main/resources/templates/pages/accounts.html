@@ -131,7 +131,7 @@
                                             <h5 class="card-title">Accounts</h5>
                                         </div>
                                         <div class="col-6 d-flex justify-content-end">
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addNewAccount">Add New Account</button>
+                                            <button class="btn btn-primary" type="button" onclick="openAddAccountModal()">Add New Account</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
@@ -144,7 +144,7 @@
                                                   <th scope="col">Actions</th>
                                                 </tr>
                                               </thead>
-                                              <tbody>
+                                              <tbody id="accountsTableBody">
                                                 <tr th:each="account : ${accounts}">
                                                   <td th:text="${account.accountType}"></td>
                                                   <td th:text="${account.accountName}"></td>
@@ -161,40 +161,12 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Add New Account Modal -->
-                    <div class="modal fade" id="addNewAccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewAccountLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="addNewAccountLabel">Add New Account</h1>
-                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Form for adding a new account -->
-                                    <form id="addAccountForm">
-                                        <!-- Account form fields -->
-                                        <div class="mb-3">
-                                            <label for="accountTypeInput" class="form-label">Account Type</label>
-                                            <input type="text" class="form-control" id="accountTypeInput" name="accountType" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="accountNameInput" class="form-label">Account Name</label>
-                                            <input type="text" class="form-control" id="accountNameInput" name="accountName" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="accountBalanceInput" class="form-label">Balance</label>
-                                            <input type="text" class="form-control" id="accountBalanceInput" name="balance" required>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                                    <button class="btn btn-primary" type="button" onclick="saveAccount()">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div th:replace="modals/addAccountModal :: addAccountModalFragment"></div>
+                    
+                    <!-- Account Added Successfully Modal -->
+                    <div th:replace="modals/addAccountModal :: successModalFragment"></div>
 
                 </div>
             </main>
