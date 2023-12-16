@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AccountsViewController {
@@ -35,14 +36,28 @@ public class AccountsViewController {
         return "pages/accounts";
     }
     
-    @PostMapping("/users/{userId}/accounts")
+    @GetMapping("users/{userId}/accounts/fetchUpdate")
+    @ResponseBody
+    public List<Accounts> getUpdatedAccounts(@PathVariable Integer userId) {
+        List<Accounts> updatedAccounts = accountsService.getAllAccounts(userId);
+        return updatedAccounts;
+    }
+    
+    @GetMapping("/users/{userId}/accounts/add")
+    public String showAddAccountModal(@PathVariable Integer userId, Model model) {
+        List<Accounts> accounts = accountsService.getAllAccounts(userId);
+        model.addAttribute("accounts", accounts);
+        return "modals/addAccountModal";
+    }
+    
+    @PostMapping("/users/{userId}/accounts/add")
     public ResponseEntity<String> addAccount(@RequestBody @Valid Accounts accounts, @PathVariable Integer userId) {
         // Fetch the existing user from the database
         User existingUser = userService.getUser(userId);
 
         // Set the existing user as the user for the account
         accounts.setUser(existingUser);
-
+        
         accountsService.addAccount(accounts);
         return ResponseEntity.ok("Account saved successfully");
     }
