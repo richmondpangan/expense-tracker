@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <!-- Add New Account Modal -->
+    <div th:fragment="addAccountModalFragment">
+        <div class="modal fade" id="addAccountModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="addAccountLabel">Add New Account</h1>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form for adding a new account -->
+                        <form id="addAccountForm">
+                            <!-- Account form fields -->
+                            <div class="mb-3">
+                                <label for="accountTypeInput" class="form-label">Account Type</label>
+                                <input type="text" class="form-control" id="accountTypeInput" name="accountType" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountNameInput" class="form-label">Account Name</label>
+                                <input type="text" class="form-control" id="accountNameInput" name="accountName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountBalanceInput" class="form-label">Balance</label>
+                                <input type="text" class="form-control" id="accountBalanceInput" name="balance" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="button" onclick="saveAccount()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Account Added Successfully Modal -->
+    <div th:fragment="successModalFragment">
+        <div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="d-flex justify-content-center mb-3" id="addNewAccountLabel">Account Added Successfully!</h5>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary" type="button" onclick="addedSuccessfully()">Okay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js}"></script>
+    <script th:src="@{/js/actions.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
