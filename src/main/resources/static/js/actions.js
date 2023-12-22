@@ -55,10 +55,12 @@ function addedSuccessfully() {
             
             for (let i = 0; i < data.length; i++) {
                 let account = data[i];
+                // Format the balance to always display two decimal places
+                let formattedBalance = Number(account.balance).toFixed(2);
                 tableBody.append('<tr>'
                         + '<td>' + account.accountType + '</td>'
                         + '<td>' + account.accountName + '</td>'
-                        + '<td>' + account.balance + '</td>'
+                        + '<td>' + formattedBalance + '</td>'
                         + '<td>' + '<button class="btn btn-success" type="button">Edit</button>' + '</td>'
                         + '<td>' + '<button class="btn btn-danger" type="button">Delete</button>' + '</td>'
                        + '</tr>');
@@ -71,9 +73,6 @@ function addedSuccessfully() {
     });
     // Hide sucess modal after clicking the 'okay' button
     $('#successModal').modal('hide');
-    
-    // Reload the page to reflect the updated account list
-    //location.reload();
 }
 
 function openAddAccountModal() {
@@ -89,24 +88,3 @@ function openAddAccountModal() {
        }
     });
 }
-
-//function updateAccountsTable() {
-//    let tableBody = $('#accountsTableBody');
-//    
-//    // Clear the existing table body
-//    tableBody.empty();
-//    
-//    // Iterate over the accounts and append rows to the table
-//    $.each(accounts, function(_, account) {
-//        let row = $('<tr>');
-//        row.append('<td>' + account.accountType + '</td>');
-//        row.append('<td>' + account.accountName + '</td>');
-//        row.append('<td>' + account.balance + '</td>');
-//        row.append('<td>' +
-//            '<button class="btn btn-success" type="button">Edit</button>' +
-//            '<button class="btn btn-danger" type="button">Delete</button>' +
-//            '</td>');
-//
-//        tableBody.append(row);
-//    });
-//}
