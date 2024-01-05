@@ -88,3 +88,47 @@ function openAddAccountModal() {
        }
     });
 }
+
+
+let deleteUserAccountInfo = {}; // Global variable to store user and account information
+
+function openDeleteAccountModal(userIdd, accountId) {
+    // Update the browser's URL
+//    let state = { userIdd: userIdd, accountId: accountId };
+//    history.pushState(state, null, '/users/' + userIdd + '/accounts/' + accountId);
+
+    deleteUserAccountInfo = { userIdd: userIdd, accountId: accountId };
+    
+    $.ajax({
+       type: 'GET',
+       url: '/users/' + userIdd + '/accounts/' + accountId,
+       success: function () {
+           $('#deleteAccountModal').modal('show');
+           console.log('userId:', userIdd);
+           console.log('accountId', accountId);
+           console.log('openDeleteAccountModal working');
+       },
+       error: function (error) {
+           console.log('Error:', error);
+       }
+    });
+}
+
+function confirmDelete() {
+    let userIdd = deleteUserAccountInfo.userIdd;
+    let accountId = deleteUserAccountInfo.accountId;
+    
+    let url = '/users/' + userIdd + '/accounts/' + accountId + '/delete';
+    console.log('DELETE URL:', url);
+    $.ajax({
+       type: 'DELETE',
+       url: '/users/' + userIdd + '/accounts/' + accountId + '/delete',
+       success: function (response) {
+           console.log(response);
+           $('#deleteAccountModal').modal('hide');
+       },
+       error: function (error) {
+           console.log('Error', error);
+       }
+    });
+}
