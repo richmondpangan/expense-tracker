@@ -151,7 +151,7 @@
                                                   <td th:text="${account.balance}"></td>
                                                   <td>
                                                     <button class="btn btn-success" type="button">Edit</button>
-                                                    <button class="btn btn-danger" type="button">Delete</button>
+                                                    <button class="btn btn-danger" type="button" th:onclick="'openDeleteAccountModal(' + ${account.user.userId} + ', ' + ${account.accountId} + ')'">Delete</button>
                                                   </td>
                                                 </tr>
                                               </tbody>
@@ -167,6 +167,9 @@
                     
                     <!-- Account Added Successfully Modal -->
                     <div th:replace="modals/addAccountModal :: successModalFragment"></div>
+                    
+                    <!-- Delete Account Modal -->
+                    <div th:replace="modals/deleteAccountModal :: deleteModalFragment"></div>
 
                 </div>
             </main>
