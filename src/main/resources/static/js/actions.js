@@ -43,28 +43,33 @@ function saveAccount() {
     });
 }
 
+function updateAccountsTableData(data) {
+    // Clear the existing table body
+    let tableBody = $('#accountsTableBody');
+    tableBody.empty();
+
+    for (let i = 0; i < data.length; i++) {
+        let account = data[i];
+        // Format the balance to always display two decimal places
+        let formattedBalance = Number(account.balance).toFixed(2);
+        tableBody.append('<tr>'
+                + '<td>' + account.accountType + '</td>'
+                + '<td>' + account.accountName + '</td>'
+                + '<td>' + formattedBalance + '</td>'
+                + '<td>' + '<button class="btn btn-success" type="button">Edit</button>'
+                + '<button class="btn btn-danger" type="button" onclick="openDeleteAccountModal(' + account.user.userId + ', ' + account.accountId + ')">Delete</button>'
+                + '</td>'
+                + '</tr>');
+    }
+}
+
 function addedSuccessfully() {        
     $.ajax({
        type: 'GET',
        url: '/users/' + userId + '/accounts/fetchUpdate',
        dataType: 'json',
        success: function (data) {
-            // Clear the existing table body
-            let tableBody = $('#accountsTableBody');
-            tableBody.empty();
-            
-            for (let i = 0; i < data.length; i++) {
-                let account = data[i];
-                // Format the balance to always display two decimal places
-                let formattedBalance = Number(account.balance).toFixed(2);
-                tableBody.append('<tr>'
-                        + '<td>' + account.accountType + '</td>'
-                        + '<td>' + account.accountName + '</td>'
-                        + '<td>' + formattedBalance + '</td>'
-                        + '<td>' + '<button class="btn btn-success" type="button">Edit</button>' + '</td>'
-                        + '<td>' + '<button class="btn btn-danger" type="button">Delete</button>' + '</td>'
-                       + '</tr>');
-            }
+            updateAccountsTableData(data);
             console.log('addedSuccessfully Modal working');
        },
        error: function (error) {
@@ -105,7 +110,7 @@ function openDeleteAccountModal(userIdd, accountId) {
        success: function () {
            $('#deleteAccountModal').modal('show');
            console.log('userId:', userIdd);
-           console.log('accountId', accountId);
+           console.log('accountId:', accountId);
            console.log('openDeleteAccountModal working');
        },
        error: function (error) {
@@ -120,15 +125,31 @@ function confirmDelete() {
     
     let url = '/users/' + userIdd + '/accounts/' + accountId + '/delete';
     console.log('DELETE URL:', url);
+    
     $.ajax({
        type: 'DELETE',
        url: '/users/' + userIdd + '/accounts/' + accountId + '/delete',
        success: function (response) {
            console.log(response);
-           $('#deleteAccountModal').modal('hide');
+           $.ajax({
+                type: 'GET',
+                url: '/users/' + userId + '/accounts/fetchUpdate',
+                dataType: 'json',
+                success: function (data) {
+                    updateAccountsTableData(data);
+                    $('#deleteAccountModal').modal('hide');
+                },
+                error: function (error) {
+                    console.log('Error', error);
+                }
+           });
        },
        error: function (error) {
            console.log('Error', error);
        }
     });
+}
+
+function cancelDelete() {
+    $('#deleteAccountModal').modal('hide');
 }
