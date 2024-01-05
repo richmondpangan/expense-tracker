@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,5 +61,16 @@ public class AccountsViewController {
         
         accountsService.addAccount(accounts);
         return ResponseEntity.ok("Account saved successfully");
+    }
+    
+    @GetMapping("/users/{userId}/accounts/{accountId}")
+    public String showDeleteAccountModal(@PathVariable Integer userId, @PathVariable Integer accountId) {
+        return "modals/deleteAccountModal";
+    }
+    
+    @DeleteMapping("/users/{userId}/accounts/{accountId}/delete")
+    public ResponseEntity<String> deleteAccount(@PathVariable Integer userId, @PathVariable Integer accountId) {
+        accountsService.deleteAccount(userId, accountId);
+        return ResponseEntity.ok("Account deleted successfully");
     }
 }
