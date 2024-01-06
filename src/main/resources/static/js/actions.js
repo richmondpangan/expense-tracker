@@ -11,9 +11,9 @@ sidebarToggler.addEventListener("click", function() {
 
     
 // User ID
-let userId = 1;
+//let userId = 1;
 
-function saveAccount() {
+function saveAccount(userId) {
     // Collect data from the form
     let formData = {
         accountType: $('#accountTypeInput').val(),
@@ -31,8 +31,6 @@ function saveAccount() {
             // Hide Add New Account modal after successfully adding a new account
             $('#addAccountModal').modal('hide');
             console.log(response);
-            
-            //updateAccountsTable();
             
             $('#successModal').modal('show');
         },
@@ -63,7 +61,7 @@ function updateAccountsTableData(data) {
     }
 }
 
-function addedSuccessfully() {        
+function addedSuccessfully(userId) {        
     $.ajax({
        type: 'GET',
        url: '/users/' + userId + '/accounts/fetchUpdate',
@@ -80,12 +78,13 @@ function addedSuccessfully() {
     $('#successModal').modal('hide');
 }
 
-function openAddAccountModal() {
+function openAddAccountModal(userId) {
     $.ajax({
        type: 'GET',
        url: '/users/' + userId + '/accounts/add',
        success: function () {
            $('#addAccountModal').modal('show');
+           console.log('User Id:', userId);
            console.log('openAddAccountModal working');
        },
        error: function (error) {
@@ -97,19 +96,19 @@ function openAddAccountModal() {
 
 let deleteUserAccountInfo = {}; // Global variable to store user and account information
 
-function openDeleteAccountModal(userIdd, accountId) {
+function openDeleteAccountModal(userId, accountId) {
     // Update the browser's URL
 //    let state = { userIdd: userIdd, accountId: accountId };
 //    history.pushState(state, null, '/users/' + userIdd + '/accounts/' + accountId);
 
-    deleteUserAccountInfo = { userIdd: userIdd, accountId: accountId };
+    deleteUserAccountInfo = { userId: userId, accountId: accountId };
     
     $.ajax({
        type: 'GET',
-       url: '/users/' + userIdd + '/accounts/' + accountId,
+       url: '/users/' + userId + '/accounts/' + accountId,
        success: function () {
            $('#deleteAccountModal').modal('show');
-           console.log('userId:', userIdd);
+           console.log('userId:', userId);
            console.log('accountId:', accountId);
            console.log('openDeleteAccountModal working');
        },
@@ -120,15 +119,15 @@ function openDeleteAccountModal(userIdd, accountId) {
 }
 
 function confirmDelete() {
-    let userIdd = deleteUserAccountInfo.userIdd;
+    let userId = deleteUserAccountInfo.userId;
     let accountId = deleteUserAccountInfo.accountId;
     
-    let url = '/users/' + userIdd + '/accounts/' + accountId + '/delete';
+    let url = '/users/' + userId + '/accounts/' + accountId + '/delete';
     console.log('DELETE URL:', url);
     
     $.ajax({
        type: 'DELETE',
-       url: '/users/' + userIdd + '/accounts/' + accountId + '/delete',
+       url: '/users/' + userId + '/accounts/' + accountId + '/delete',
        success: function (response) {
            console.log(response);
            $.ajax({
