@@ -131,7 +131,7 @@
                                             <h5 class="card-title">Accounts</h5>
                                         </div>
                                         <div class="col-6 d-flex justify-content-end">
-                                            <button class="btn btn-primary" type="button" onclick="openAddAccountModal()">Add New Account</button>
+                                            <button class="btn btn-primary" type="button" th:onclick="'openAddAccountModal(' + ${userId} + ')'">Add New Account</button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
