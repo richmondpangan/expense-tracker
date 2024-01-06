@@ -34,20 +34,21 @@ public class AccountsViewController {
     public String getAllAccounts(@PathVariable Integer userId, Model model) {
         List<Accounts> accounts = accountsService.getAllAccounts(userId);
         model.addAttribute("accounts", accounts);
+        model.addAttribute("userId", userId);
         return "pages/accounts";
     }
     
     @GetMapping("users/{userId}/accounts/fetchUpdate")
     @ResponseBody
-    public List<Accounts> getUpdatedAccounts(@PathVariable Integer userId) {
+    public List<Accounts> getUpdatedAccounts(@PathVariable Integer userId, Model model) {
         List<Accounts> updatedAccounts = accountsService.getAllAccounts(userId);
+        model.addAttribute("userId", userId);
         return updatedAccounts;
     }
     
     @GetMapping("/users/{userId}/accounts/add")
     public String showAddAccountModal(@PathVariable Integer userId, Model model) {
-        List<Accounts> accounts = accountsService.getAllAccounts(userId);
-        model.addAttribute("accounts", accounts);
+        model.addAttribute("userId", userId);
         return "modals/addAccountModal";
     }
     
