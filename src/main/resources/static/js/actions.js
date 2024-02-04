@@ -54,7 +54,7 @@ function updateAccountsTableData(data) {
                 + '<td>' + account.accountType + '</td>'
                 + '<td>' + account.accountName + '</td>'
                 + '<td>' + formattedBalance + '</td>'
-                + '<td>' + '<button class="btn btn-success" type="button">Edit</button>'
+                + '<td>' + '<button class="btn btn-success" type="button" onclick="openEditAccountModal(' + account.user.userId + ', ' + account.accountId + ')">Edit</button>'
                 + '<button class="btn btn-danger" type="button" onclick="openDeleteAccountModal(' + account.user.userId + ', ' + account.accountId + ')">Delete</button>'
                 + '</td>'
                 + '</tr>');
@@ -151,4 +151,69 @@ function confirmDelete() {
 
 function cancelDelete() {
     $('#deleteAccountModal').modal('hide');
+}
+
+let editUserAccountInfo = {};
+
+function openEditAccountModal(userId, accountId) {
+    editUserAccountInfo = { userId: userId, accountId: accountId };
+    
+    let url = '/users/' + userId + '/accounts/' + accountId + '/edit';
+    console.log('EDIT URL:', url);
+    
+    let modalId = '#editAccountModal-' + accountId;
+    
+    $.ajax({
+       type: 'GET',
+       url: '/users/' + userId + '/accounts/' + accountId + '/edit',
+       success: function () {
+           $(modalId).modal('show');
+           console.log('openEditAccountModal working');
+       },
+       error: function (error) {
+           console.log('Error:', error);
+       }
+    });
+}
+
+function editAccount() {
+    let userId = editUserAccountInfo.userId;
+    let accountId = editUserAccountInfo.accountId;
+    let modalId = '#editAccountModal-' + accountId;
+    
+    //Collect data from the form
+    let formData = {
+        accountType: $('#accountTypeEditInput-' + accountId).val(),
+        accountName: $('#accountNameEditInput-' + accountId).val(),
+        balance: $('#accountBalanceEditInput-' + accountId).val()
+    };
+    
+    console.log('User ID:', userId);
+    console.log('Account ID:', accountId);
+    console.log('Form Data:', formData);
+    
+    $.ajax({
+       type: 'PUT',
+       url: '/users/' + userId + '/accounts/' + accountId + '/edit',
+       data: JSON.stringify(formData), // If formData is a JSON object
+       contentType: 'application/json',
+       success: function (response) {
+           console.log(response);
+           $.ajax({
+             type: 'GET',
+             url: '/users/' + userId + '/accounts/fetchUpdate',
+             dataType: 'json',
+             success: function(data) {
+                updateAccountsTableData(data);
+                $(modalId).modal('hide');
+             },
+             error: function(error) {
+                 console.log('Error:', error);
+             }
+           });
+       },
+       error: function (error) {
+           console.log("Error:", error);
+       }
+    });
 }
