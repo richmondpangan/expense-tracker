@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <!-- Edit Account Modal -->
+    <div th:fragment="editAccountModalFragment" th:each="account : ${accounts}">
+        <div class="modal fade" th:id="'editAccountModal-' + ${account.accountId}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editAccountModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" th:id="editAccountLabel">Edit Account</h1>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form for adding a new account -->
+                        <form id="editAccountForm">
+                            <!-- Account form fields -->
+                            <div class="mb-3">
+                                <label for="accountTypeInput" class="form-label">Account Type</label>
+                                <input type="text" class="form-control" th:id="'accountTypeEditInput-' + ${account.accountId}" name="accountType" th:value="${account.accountType}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountNameInput" class="form-label">Account Name</label>
+                                <input type="text" class="form-control" th:id="'accountNameEditInput-' + ${account.accountId}" name="accountName" th:value="${account.accountName}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountBalanceInput" class="form-label">Balance</label>
+                                <input type="text" class="form-control" th:id="'accountBalanceEditInput-' + ${account.accountId}" name="balance" th:value="${account.balance}" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="button" onclick="editAccount()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js}"></script>
+    <script th:src="@{/js/actions.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
