@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -62,6 +63,19 @@ public class AccountsViewController {
         
         accountsService.addAccount(accounts);
         return ResponseEntity.ok("Account saved successfully");
+    }
+    
+    @GetMapping("/users/{userId}/accounts/{accountId}/edit")
+    public String showEditAccountModal(@PathVariable Integer userId, @PathVariable Integer accountId, Model model) {
+        List<Accounts> accounts = accountsService.getAllAccounts(userId);
+        model.addAttribute("accounts", accounts);
+        return "modals/editAccountModal";
+    }
+    
+    @PutMapping("/users/{userId}/accounts/{accountId}/edit")
+    public ResponseEntity<String> updateAccount(@RequestBody @Valid Accounts accounts, @PathVariable Integer userId, @PathVariable Integer accountId) {
+        accountsService.updateAccount(accounts, userId, accountId);
+        return ResponseEntity.ok("Account edited successfully");
     }
     
     @GetMapping("/users/{userId}/accounts/{accountId}")
